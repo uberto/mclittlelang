@@ -27,6 +27,7 @@ kotlin {
             executable {
                 entryPoint = "main"
                 runTask?.args("myFirstArg mySecondArg")
+                runTask?.standardInput = System.`in`
             }
         }
     }
