@@ -1,5 +1,5 @@
 import com.ubertob.mcll.DataPack
-import com.ubertob.mcll.evaluateExpression
+import com.ubertob.mcll.eval
 
 // to run it, either from IntelliJ or
 //./gradlew -q --console=plain runReleaseExecutableNative
@@ -32,7 +32,7 @@ private fun readLnLoop() {
 
         try {
             // Evaluate the input as an arithmetic expression
-            val (result, newDp) = evaluateExpression(input, dp)
+            val (result, newDp) = eval(input, dp)
             dp = newDp
             println(result)
         } catch (e: Exception) {

@@ -1,19 +1,24 @@
 package com.ubertob.mcll
 
+import com.ubertob.commands.Command
+import com.ubertob.commands.ListDp
+import com.ubertob.commands.SetWorld
 
-fun evaluateExpression(input: String, currentDp: DataPack): Pair<String, DataPack> {
+typealias EvalResult = Pair<String, DataPack>
+
+fun eval(input: String, currentDp: DataPack): EvalResult {
     val words = input.split(" ").map(String::trim)
     if (words.isNotEmpty()) {
         val command = words.first()
-        val output = when (command.lowercase()) {
-            "fun" -> "WIP"
-            "createdp" -> "WIP"
-            "listdp" -> "WIP"
-            "setworld" -> "WIP"
-            "setdp" -> "WIP"
-            else -> "Unknown command: $command"
+        val cmd: Command = when (command.lowercase()) {
+            "fun" ->TODO()
+            "createdp" ->TODO()
+            "listdp" ->ListDp(currentDp)
+            "setworld" -> SetWorld(currentDp)
+            "setdp" ->TODO()
+            else -> return "Unknown command: $command" to currentDp
         }
-        return output to currentDp
+        return cmd(words.drop(1))
     } else {
         return "?" to currentDp
     }

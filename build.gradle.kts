@@ -32,9 +32,15 @@ kotlin {
         }
     }
 
+    val okioVersion = "3.9.0"
+
+
     sourceSets {
         nativeMain.dependencies {
-//            implementation(libs.kotlinxSerializationJson)
+            implementation("com.squareup.okio:okio:$okioVersion")
+        }
+        nativeTest.dependencies {
+            implementation(kotlin("test"))
         }
     }
 }
