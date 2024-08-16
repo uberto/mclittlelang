@@ -27,12 +27,19 @@ data class ListDp(override val curr: DataPack) : Command {
         return "DataPacks of $worldName:\n$dps" to curr
     }
 }
+
 data class ListFun(override val curr: DataPack) : Command {
-//!!! handle namespaces!!!
+    //!!! handle namespaces!!!
     override fun invoke(args: List<String>): EvalResult {
-    val dirPath = curr.worldPath / "datapacks/${curr.name}/data/ub/function".toPath()
-    val funs = listFilesWithExtension(dirPath, "mcfunction")
-            .joinToString(separator = "\n") { it.name }
+
+        val nsPath = curr.worldPath / "datapacks/${curr.name}/data/".toPath()
+        val nameSpaces = listFoldersInPath(nsPath)
+
+        val funs = nameSpaces.flatMap { nsPath ->
+            val dirPath = nsPath / "function".toPath()
+            listFilesWithExtension(dirPath, "mcfunction")
+                .map { "${nsPath.name}:${it.name.substringBefore(".")}" }
+        }.joinToString(separator = "\n")
         return "Functions of ${curr.name}:\n$funs" to curr
     }
 }

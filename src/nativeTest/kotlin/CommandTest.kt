@@ -37,4 +37,17 @@ class CommandTest {
         val expected = """Successfully set current datapack to dp1 - Data Pack 1""".trimMargin()
         assertEquals(expected, output )
     }
+
+    @Test
+    fun `listFun returns the list of functions of a datapack including namespace`() {
+        val curr = DataPack(world1Path, "", "")
+        val (_, newDp ) = eval("setDp dp1", curr)
+        val (output, _ ) = eval("listFun", newDp)
+        val expected = """Functions of dp1:
+            |ns1:water
+            |ns2:air
+            |ns2:stone
+        """.trimMargin()
+        assertEquals(expected, output )
+    }
 }

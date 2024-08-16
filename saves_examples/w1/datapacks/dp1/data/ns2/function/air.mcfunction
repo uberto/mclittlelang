@@ -1,0 +1,1 @@
+fill ~-18 ~-5 ~-18 ~18 ~-1 ~18 minecraft:air
