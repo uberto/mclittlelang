@@ -30,7 +30,13 @@ data class ListDp(override val curr: DataPack): Command {
 
 data class SetDp(override val curr: DataPack): Command {
     override fun invoke(args: List<String>): EvalResult {
-        TODO("Not yet implemented")
+        val filename = args.first()
+        val filePath = curr.worldPath / "datapacks/${filename}/pack.mcmeta".toPath()
+        val jsonData = readTextFileAsLines(filePath).joinToString(separator = "")
+        val description = jsonData.substringAfter(""""description": """")
+            .substringBeforeLast(""""""")
+        val dataPack = DataPack(curr.worldPath, filename, description)
+        return "Successfully set current datapack to ${dataPack.name} - ${dataPack.description}" to dataPack
     }
 }
 

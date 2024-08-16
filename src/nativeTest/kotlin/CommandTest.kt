@@ -34,7 +34,7 @@ class CommandTest {
         val (output, newDp ) = eval("setDp dp1", curr)
         assertEquals(world1Path, newDp.worldPath )
         assertEquals("dp1", newDp.name )
-        val expected = """Current datapack: dp1 - ???""".trimMargin()
+        val expected = """Successfully set current datapack to dp1 - Data Pack 1""".trimMargin()
         assertEquals(expected, output )
     }
 }

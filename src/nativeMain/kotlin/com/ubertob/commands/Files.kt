@@ -2,6 +2,8 @@ package com.ubertob.commands
 
 import okio.FileSystem
 import okio.Path
+import okio.buffer
+import okio.use
 
 
 fun listFoldersInPath(directoryPath: Path): List<Path> {
@@ -25,4 +27,17 @@ fun folderExists(path: Path): Boolean {
     // Retrieve the metadata for the path and check if it exists and is a directory
     val metadata = fileSystem.metadataOrNull(path)
     return metadata?.isDirectory == true
+}
+
+fun readTextFileAsLines(filePath: Path): List<String> {
+    val fileSystem = FileSystem.SYSTEM
+
+    // Ensure the file exists before attempting to read it
+    if (fileSystem.exists(filePath)) {
+        fileSystem.source(filePath).buffer().use { source ->
+            return source.readUtf8().lines()
+        }
+    } else {
+        throw IllegalArgumentException("File does not exist: ${filePath.name}")
+    }
 }
