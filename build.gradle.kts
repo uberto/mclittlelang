@@ -26,14 +26,13 @@ kotlin {
         binaries {
             executable {
                 entryPoint = "main"
-                runTask?.args("myFirstArg mySecondArg")
+//                 runTask?.args("myFirstArg mySecondArg")
                 runTask?.standardInput = System.`in`
             }
         }
     }
 
     val okioVersion = "3.9.0"
-
 
     sourceSets {
         nativeMain.dependencies {

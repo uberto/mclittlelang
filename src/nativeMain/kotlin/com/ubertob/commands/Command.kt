@@ -11,9 +11,9 @@ sealed interface Command {
 
 data class SetWorld(override val curr: DataPack): Command {
     override fun invoke( args: List<String>): EvalResult {
-        val path = args.first()
+        val path = args.first().toPath()
         return if (folderExists(path))
-            "Successfully set world to $path" to DataPack("", path)
+            "Successfully set world to $path" to DataPack( path,"", "")
         else
             "Error! not found path $path" to curr
     }
@@ -21,10 +21,16 @@ data class SetWorld(override val curr: DataPack): Command {
 
 data class ListDp(override val curr: DataPack): Command {
     override fun invoke( args: List<String>): EvalResult {
-        val dps = listFoldersInPath(curr.worldPath+"/datapacks")
+        val dps = listFoldersInPath(curr.worldPath / "datapacks".toPath())
             .joinToString(separator = "\n") { it.name }
-        val worldName = curr.worldPath.toPath().segments.last()
+        val worldName = curr.worldPath.segments.last()
         return "DataPacks of $worldName:\n$dps" to curr
+    }
+}
+
+data class SetDp(override val curr: DataPack): Command {
+    override fun invoke(args: List<String>): EvalResult {
+        TODO("Not yet implemented")
     }
 }
 

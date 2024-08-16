@@ -2,6 +2,7 @@ package com.ubertob.mcll
 
 import com.ubertob.commands.Command
 import com.ubertob.commands.ListDp
+import com.ubertob.commands.SetDp
 import com.ubertob.commands.SetWorld
 
 typealias EvalResult = Pair<String, DataPack>
@@ -15,7 +16,7 @@ fun eval(input: String, currentDp: DataPack): EvalResult {
             "createdp" ->TODO()
             "listdp" ->ListDp(currentDp)
             "setworld" -> SetWorld(currentDp)
-            "setdp" ->TODO()
+            "setdp" -> SetDp(currentDp)
             else -> return "Unknown command: $command" to currentDp
         }
         return cmd(words.drop(1))

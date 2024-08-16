@@ -1,3 +1,5 @@
 package com.ubertob.mcll
 
-data class DataPack(val name: String, val worldPath: String)
+import okio.Path
+
+data class DataPack(val worldPath: Path, val name: String, val description: String) {}

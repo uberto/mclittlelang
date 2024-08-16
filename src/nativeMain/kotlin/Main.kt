@@ -1,5 +1,6 @@
 import com.ubertob.mcll.DataPack
 import com.ubertob.mcll.eval
+import okio.Path.Companion.toPath
 
 // to run it, either from IntelliJ or
 //./gradlew -q --console=plain runReleaseExecutableNative
@@ -19,7 +20,7 @@ fun main(args: Array<String>) {
 }
 
 private fun readLnLoop() {
-    var dp = DataPack("default", ".")
+    var dp = DataPack(".".toPath(), "", "")
     while (true) {
 //        print("> ")  // Prompt for input
         val input = readlnOrNull() ?: continue  // Read input from console

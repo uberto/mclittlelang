@@ -2,12 +2,10 @@ package com.ubertob.commands
 
 import okio.FileSystem
 import okio.Path
-import okio.Path.Companion.toPath
 
 
-fun listFoldersInPath(path: String): List<Path> {
+fun listFoldersInPath(directoryPath: Path): List<Path> {
     val fileSystem = FileSystem.SYSTEM
-    val directoryPath: Path = path.toPath()
 
     // Ensure the path exists and is a directory
     if (fileSystem.metadataOrNull(directoryPath)?.isDirectory == true) {
@@ -21,11 +19,10 @@ fun listFoldersInPath(path: String): List<Path> {
     }
 }
 
-fun folderExists(path: String): Boolean {
+fun folderExists(path: Path): Boolean {
     val fileSystem = FileSystem.SYSTEM
-    val folderPath: Path = path.toPath()
 
     // Retrieve the metadata for the path and check if it exists and is a directory
-    val metadata = fileSystem.metadataOrNull(folderPath)
+    val metadata = fileSystem.metadataOrNull(path)
     return metadata?.isDirectory == true
 }
