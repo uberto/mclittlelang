@@ -5,7 +5,6 @@ import okio.Path
 import okio.buffer
 import okio.use
 
-
 fun listFoldersInPath(directoryPath: Path): List<Path> {
     val fileSystem = FileSystem.SYSTEM
 
@@ -41,3 +40,20 @@ fun readTextFileAsLines(filePath: Path): List<String> {
         throw IllegalArgumentException("File does not exist: ${filePath.name}")
     }
 }
+
+fun Path.absolute(): String = FileSystem.SYSTEM.canonicalize(this).toString()
+
+fun listFilesWithExtension(dirPath: Path, extension: String): List<Path> {
+    val fileSystem = FileSystem.SYSTEM
+
+    if (fileSystem.exists(dirPath)) {
+        return  fileSystem.list(dirPath).filter { file ->
+            !fileSystem.metadata(file).isDirectory && file.name.endsWith(extension)
+        }
+    } else{
+        throw IllegalArgumentException("Folder does not exist: ${dirPath.absolute()}")
+    }
+
+}
+
+

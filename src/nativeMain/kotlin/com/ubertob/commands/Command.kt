@@ -6,29 +6,38 @@ import okio.Path.Companion.toPath
 
 sealed interface Command {
     val curr: DataPack
-    operator fun invoke( args: List<String>): EvalResult
+    operator fun invoke(args: List<String>): EvalResult
 }
 
-data class SetWorld(override val curr: DataPack): Command {
-    override fun invoke( args: List<String>): EvalResult {
-        val path = args.first().toPath()
+data class SetWorld(override val curr: DataPack) : Command {
+    override fun invoke(args: List<String>): EvalResult {
+        val path = args.joinToString(" ").toPath()
         return if (folderExists(path))
-            "Successfully set world to $path" to DataPack( path,"", "")
+            "Successfully set world to $path" to DataPack(path, "", "")
         else
             "Error! not found path $path" to curr
     }
 }
 
-data class ListDp(override val curr: DataPack): Command {
-    override fun invoke( args: List<String>): EvalResult {
+data class ListDp(override val curr: DataPack) : Command {
+    override fun invoke(args: List<String>): EvalResult {
         val dps = listFoldersInPath(curr.worldPath / "datapacks".toPath())
             .joinToString(separator = "\n") { it.name }
         val worldName = curr.worldPath.segments.last()
         return "DataPacks of $worldName:\n$dps" to curr
     }
 }
+data class ListFun(override val curr: DataPack) : Command {
+//!!! handle namespaces!!!
+    override fun invoke(args: List<String>): EvalResult {
+    val dirPath = curr.worldPath / "datapacks/${curr.name}/data/ub/function".toPath()
+    val funs = listFilesWithExtension(dirPath, "mcfunction")
+            .joinToString(separator = "\n") { it.name }
+        return "Functions of ${curr.name}:\n$funs" to curr
+    }
+}
 
-data class SetDp(override val curr: DataPack): Command {
+data class SetDp(override val curr: DataPack) : Command {
     override fun invoke(args: List<String>): EvalResult {
         val filename = args.first()
         val filePath = curr.worldPath / "datapacks/${filename}/pack.mcmeta".toPath()
@@ -38,5 +47,12 @@ data class SetDp(override val curr: DataPack): Command {
         val dataPack = DataPack(curr.worldPath, filename, description)
         return "Successfully set current datapack to ${dataPack.name} - ${dataPack.description}" to dataPack
     }
+}
+
+data class Show(override val curr: DataPack) : Command {
+    override fun invoke(args: List<String>): EvalResult {
+        return "${curr.worldPath.absolute()} ${curr.name} ${curr.description}" to curr
+    }
+
 }
 

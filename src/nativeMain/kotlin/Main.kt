@@ -25,7 +25,6 @@ private fun readLnLoop() {
 //        print("> ")  // Prompt for input
         val input = readlnOrNull() ?: continue  // Read input from console
 
-        println("got it")
         if (input == "exit") {
             println("Goodbye!")
             break
@@ -42,11 +41,13 @@ private fun readLnLoop() {
     }
 }
 
-private fun printCommandHelp() {
+private fun printCommandHelp() { //!!! command name and description should come from commands themselves
     println("Possible commands are:")
     println("fun [file.mcll] -> will generate file.mcfunction in the current datapack")
-    println("listDP -> list all datapack of current world")
-    println("createDp [Datapack name] -> will generate a datapack folder structure with given name and made it current")
+    println("show -> print current saved world folder and datapack (if selected)")
+    println("listDP -> list all datapack of the current world")
+    println("listFun -> list all functions of the current datapack")
+    println("createDP [Datapack name] -> will generate a datapack folder structure with given name and made it current")
     println("setWorld [MC saved folder] -> store the MC current world")
     println("setDP [Datapack name] -> makes specified datapack as current")
     println("exit -> close this program")
